@@ -1,14 +1,13 @@
 package com.marcom;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.marcom.Annotation.TranslateDestination;
 import com.marcom.Annotation.TranslateSource;
 import com.marcom.Exception.MapperException;
 
-public class MapperTest {
+public class BiMappertTest {
 
 	class TestMapClassA {
 		public static final int TEST_SOURCE_A = 1;
@@ -101,46 +100,55 @@ public class MapperTest {
 		}
 	}
 
-
 	@Test
-	public void translateAnnotationClassAClassA() throws MapperException {
+	public void bitranslateAnnotationClassAClassA() throws MapperException {
 		TestMapClassA sourceA = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		TestMapClassA destinationA = new TestMapClassA(
 				TestMapClassA.TEST_DESTINATION_A,
 				TestMapClassA.TEST_DESTINATION_STRING
 		);
 
-		System.out.println( "Test annotation translate (classA -> classA)." );
-		Mapper<TestMapClassA, TestMapClassA> mapperAA = new Mapper<>();
+		System.out.println( "Test annotation bitranslate (classA -> classA)." );
+		BiMapper<TestMapClassA, TestMapClassA> mapperAA = new BiMapper<>();
 		mapperAA.translate( sourceA, destinationA );
-		Assert.assertEquals( "Translate pojo is failed.", sourceA.a, destinationA.a );
-		Assert.assertEquals( "Translate object is failed.", sourceA.getString(), destinationA.getString() );
+		Assert.assertEquals( "Translate pojo is failed.", TestMapClassA.TEST_SOURCE_A, destinationA.getA() );
+		Assert.assertEquals(
+				"Translate object is failed.",
+				TestMapClassA.TEST_SOURCE_STRING,
+				destinationA.getString()
+		);
+
+		System.out.println( "Test annotation bitranslate (classA <- classA)." );
+		sourceA = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
+		destinationA = new TestMapClassA( TestMapClassA.TEST_DESTINATION_A, TestMapClassA.TEST_DESTINATION_STRING );
+		mapperAA.translateBack( sourceA, destinationA );
+		Assert.assertEquals( "Translate pojo is failed.", sourceA.getA(), TestMapClassA.TEST_DESTINATION_A );
+		Assert.assertEquals(
+				"Translate object is failed.",
+				sourceA.getString(),
+				TestMapClassA.TEST_DESTINATION_STRING
+		);
 	}
 
 	@Test
-	public void translateAnnotationClassAClassB() throws MapperException {
-		System.out.println( "Test annotation translate (classA -> classB)." );
-		TestMapClassA sourceA = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
-		TestMapClassB destinationB = new TestMapClassB(
+	public void bitranslateAnnotationClassAClassB() throws MapperException {
+		System.out.println( "Test annotation bitranslate (classA -> classB)." );
+		TestMapClassA source = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
+		TestMapClassB destination = new TestMapClassB(
 				TestMapClassB.TEST_DESTINATION_A,
 				TestMapClassB.TEST_DESTINATION_STRING
 		);
 
-		Mapper<TestMapClassA, TestMapClassB> mapperAB = new Mapper<>();
-		mapperAB.translate( sourceA, destinationB );
-		Assert.assertEquals( "Translate pojo is failed.", sourceA.a, destinationB.a );
-		Assert.assertEquals( "Translate object is failed.", sourceA.getString(), destinationB.getString() );
+		BiMapper<TestMapClassA, TestMapClassB> mapper = new BiMapper<>();
+		mapper.translate( source, destination );
+		Assert.assertEquals( "Translate pojo is failed.", TestMapClassA.TEST_SOURCE_A, destination.getA() );
+		Assert.assertEquals( "Translate object is failed.", TestMapClassA.TEST_SOURCE_STRING, destination.getString() );
 
-		System.out.println( "Test annotation translate (classB -> classA)." );
-		TestMapClassB sourceB = new TestMapClassB( TestMapClassB.TEST_SOURCE_A, TestMapClassB.TEST_SOURCE_STRING );
-		TestMapClassA destinationA = new TestMapClassA(
-				TestMapClassA.TEST_DESTINATION_A,
-				TestMapClassA.TEST_DESTINATION_STRING
-		);
-
-		Mapper<TestMapClassB, TestMapClassA> mapperBA = new Mapper<>();
+		System.out.println( "Test annotation bitranslate (classA <- classB)." );
+		source = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
+		destination = new TestMapClassB( TestMapClassB.TEST_DESTINATION_A, TestMapClassB.TEST_DESTINATION_STRING );
 		try {
-			mapperBA.translate( sourceB, destinationA );
+			mapper.translateBack( source, destination );
 		}
 		catch (MapperException me) {
 			Assert.assertEquals( "Mapped by value = TestMapClass_A, don't pass in source.", me.getMessage() );
@@ -148,37 +156,24 @@ public class MapperTest {
 	}
 
 	@Test
-	public void translateAnnotationForMiniClass() throws MapperException {
+	public void bitranslateAnnotationForMiniClass() throws MapperException {
 		System.out.println( "Test annotation for mini class (classA -> classC)." );
 		TestMapClassA source = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		TestMapClassC destination = new TestMapClassC( TestMapClassC.TEST_DESTINATION_STRING );
 
-		Mapper<TestMapClassA, TestMapClassC> mapper = new Mapper<>();
+		BiMapper<TestMapClassA, TestMapClassC> mapper = new BiMapper<>();
 		mapper.translate( source, destination );
 
-		Assert.assertEquals( "Translate object is failed.", source.getString(), destination.getString() );
+		Assert.assertEquals( "Translate object is failed.", TestMapClassA.TEST_SOURCE_STRING, destination.getString() );
+
+		System.out.println( "Test annotation for mini class (classA <- classC)." );
+		source = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
+		destination = new TestMapClassC( TestMapClassC.TEST_DESTINATION_STRING );
+		try {
+			mapper.translateBack( source, destination );
+		}
+		catch (MapperException me) {
+			Assert.assertEquals( "Mapped by value = TestMapClass_A, don't pass in source.", me.getMessage() );
+		}
 	}
-
-	//TODO Force translate - skip non detected annotation
-	@Test
-	@Ignore
-	public void translateAnnotationOutMiniClass() throws MapperException {
-		System.out.println( "Test annotation out mini class (classC -> classA)." );
-		TestMapClassC source = new TestMapClassC( TestMapClassC.TEST_SOURCE_STRING );
-		TestMapClassA destination = new TestMapClassA(
-				TestMapClassA.TEST_DESTINATION_A,
-				TestMapClassA.TEST_DESTINATION_STRING
-		);
-
-		Mapper<TestMapClassC, TestMapClassA> mapper = new Mapper<>();
-		mapper.translate( source, destination );
-
-		Assert.assertEquals( "Translate object is failed.", source.getString(), destination.getString() );
-	}
-
-	//TODO [JSON] JSON -> Object: annotation.value = json.key
-	//TODO [JSON] List JSON -> List objects.
-	//TODO [JSON] JSON.value = array.
-	//TODO [JSON] Class annotation, if key JSON.value = user's object
-
 }

@@ -59,7 +59,10 @@ public class Mapper<S, D> {
 	}
 
 	private Map<String, Method> getDestinationMap(D destination) {
-		return getMapMethodByAnnotation( destination.getClass().getMethods(), TranslateDestination.class.getSimpleName() );
+		return getMapMethodByAnnotation(
+				destination.getClass().getMethods(),
+				TranslateDestination.class.getSimpleName()
+		);
 	}
 
 	private Map<String, Method> getMapMethodByAnnotation(Method[] methods, String annotationName) {
