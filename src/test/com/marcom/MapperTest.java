@@ -1,5 +1,8 @@
 package com.marcom;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -112,7 +115,7 @@ public class MapperTest {
 
 		System.out.println( "Test annotation translate (classA -> classA)." );
 		Mapper<TestMapClassA, TestMapClassA> mapperAA = new Mapper<>();
-		mapperAA.translate( sourceA, destinationA );
+		mapperAA.translate( sourceA, destinationA, false );
 		Assert.assertEquals( "Translate pojo is failed.", sourceA.a, destinationA.a );
 		Assert.assertEquals( "Translate object is failed.", sourceA.getString(), destinationA.getString() );
 	}
@@ -127,7 +130,7 @@ public class MapperTest {
 		);
 
 		Mapper<TestMapClassA, TestMapClassB> mapperAB = new Mapper<>();
-		mapperAB.translate( sourceA, destinationB );
+		mapperAB.translate( sourceA, destinationB, false );
 		Assert.assertEquals( "Translate pojo is failed.", sourceA.a, destinationB.a );
 		Assert.assertEquals( "Translate object is failed.", sourceA.getString(), destinationB.getString() );
 
@@ -140,10 +143,11 @@ public class MapperTest {
 
 		Mapper<TestMapClassB, TestMapClassA> mapperBA = new Mapper<>();
 		try {
-			mapperBA.translate( sourceB, destinationA );
+			mapperBA.translate( sourceB, destinationA, false );
 		}
 		catch (MapperException me) {
-			Assert.assertEquals( "Mapped by value = TestMapClass_A, don't pass in source.", me.getMessage() );
+			Assert.assertEquals( me.getValues().toArray(), new String[] { "TestMapClass_A", "TestMapClass_B" } );
+//			Assert.assertEquals( "Mapped by values = [TestMapClass_A], don't pass in source.", me.getMessage() );
 		}
 	}
 
@@ -154,7 +158,7 @@ public class MapperTest {
 		TestMapClassC destination = new TestMapClassC( TestMapClassC.TEST_DESTINATION_STRING );
 
 		Mapper<TestMapClassA, TestMapClassC> mapper = new Mapper<>();
-		mapper.translate( source, destination );
+		mapper.translate( source, destination, false );
 
 		Assert.assertEquals( "Translate object is failed.", source.getString(), destination.getString() );
 	}
@@ -171,7 +175,7 @@ public class MapperTest {
 		);
 
 		Mapper<TestMapClassC, TestMapClassA> mapper = new Mapper<>();
-		mapper.translate( source, destination );
+		mapper.translate( source, destination, false );
 
 		Assert.assertEquals( "Translate object is failed.", source.getString(), destination.getString() );
 	}

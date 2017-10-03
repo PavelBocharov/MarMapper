@@ -4,8 +4,10 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,7 +32,7 @@ public class Mapper<S, D> {
 	 * @throws InvocationTargetException
 	 * @throws IllegalAccessException
 	 */
-	public void translate(S source, D destination) throws MapperException {
+	public void translate(S source, D destination, boolean force) throws MapperException {
 		Map<String, Method> sourceMap = getSourceMap( source );
 		Map<String, Method> destinationMap = getDestinationMap( destination );
 		for ( String s : destinationMap.keySet() ) {
@@ -49,9 +51,30 @@ public class Mapper<S, D> {
 			}
 			else {
 				// TODO Return all non detected annotation.
-				throw new MapperException( "Mapped by value = " + s + ", don't pass in source." );
+				if ( !force ) {
+					Set<String> values = notIntersection( sourceMap.keySet(), destinationMap.keySet() );
+					throw new MapperException(
+							"Mapped by value = " + values.toString() + ", don't pass in source.",
+							values
+					);
+				}
 			}
 		}
+	}
+
+	private Set notIntersection(Set<String> sourceSet, Set<String> destinationSet) {
+		Set<String> result = new HashSet<>();
+		for ( String s : sourceSet ) {
+			if ( !destinationSet.contains( s ) ) {
+				result.add( s );
+			}
+		}
+		for ( String s : destinationSet ) {
+			if ( !sourceSet.contains( s ) && !result.contains( s ) ) {
+				result.add( s );
+			}
+		}
+		return result;
 	}
 
 	private Map<String, Method> getSourceMap(S source) {
