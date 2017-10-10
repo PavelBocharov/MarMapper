@@ -29,27 +29,19 @@ public class Mapper<S, D> {
 	 * @param source Source, откуда копирует значения при транслировании.
 	 * @param destination Destination, куда копирует значения при транслировании.
 	 * @param force пропускать не найденные аннотации, skip annotations not found.
-	 *
-	 * @throws NoSuchMethodException
-	 * @throws InvocationTargetException
-	 * @throws IllegalAccessException
+	 * @throws MapperException см {@link MapperException}
+	 * @throws InvocationTargetException см {@link InvocationTargetException}
+	 * @throws IllegalAccessException см {@link IllegalAccessException}
 	 */
-	public void translate(S source, D destination, boolean force) throws MapperException {
+	public void translate(S source, D destination, boolean force)
+			throws MapperException, InvocationTargetException, IllegalAccessException {
 		Map<String, Method> sourceMap = getSourceMap( source );
 		Map<String, Method> destinationMap = getDestinationMap( destination );
 		for ( String s : destinationMap.keySet() ) {
 			Method destinationMethod = destinationMap.get( s );
 			Method sourceMethod = sourceMap.get( s );
 			if ( destinationMethod != null && sourceMethod != null ) {
-				try {
-					destinationMethod.invoke( destination, sourceMethod.invoke( source ) );
-				}
-				catch (IllegalAccessException e) {
-					e.printStackTrace();
-				}
-				catch (InvocationTargetException e) {
-					e.printStackTrace();
-				}
+				destinationMethod.invoke( destination, sourceMethod.invoke( source ) );
 			}
 			else {
 				if ( !force ) {

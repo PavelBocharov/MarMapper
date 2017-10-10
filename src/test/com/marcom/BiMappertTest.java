@@ -1,5 +1,6 @@
 package com.marcom;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -104,7 +105,8 @@ public class BiMappertTest {
 	}
 
 	@Test
-	public void bitranslateAnnotationClassAClassA() throws MapperException {
+	public void bitranslateAnnotationClassAClassA()
+			throws MapperException, InvocationTargetException, IllegalAccessException {
 		TestMapClassA sourceA = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		TestMapClassA destinationA = new TestMapClassA(
 				TestMapClassA.TEST_DESTINATION_A,
@@ -134,7 +136,8 @@ public class BiMappertTest {
 	}
 
 	@Test
-	public void bitranslateAnnotationClassAClassB() throws MapperException {
+	public void bitranslateAnnotationClassAClassB()
+			throws MapperException, InvocationTargetException, IllegalAccessException {
 		System.out.println( "Test annotation bitranslate (classA -> classB)." );
 		TestMapClassA source = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		TestMapClassB destination = new TestMapClassB(
@@ -166,7 +169,8 @@ public class BiMappertTest {
 	}
 
 	@Test
-	public void bitranslateAnnotationForMiniClass() throws MapperException {
+	public void bitranslateAnnotationForMiniClass()
+			throws MapperException, InvocationTargetException, IllegalAccessException {
 		System.out.println( "Test annotation for mini class (classA -> classC)." );
 		TestMapClassA source = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		TestMapClassC destination = new TestMapClassC( TestMapClassC.TEST_DESTINATION_STRING );

@@ -1,5 +1,6 @@
 package com.marcom;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -105,7 +106,8 @@ public class MapperTest {
 
 
 	@Test
-	public void translateAnnotationClassAClassA() throws MapperException {
+	public void translateAnnotationClassAClassA()
+			throws MapperException, InvocationTargetException, IllegalAccessException {
 		TestMapClassA sourceA = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		TestMapClassA destinationA = new TestMapClassA(
 				TestMapClassA.TEST_DESTINATION_A,
@@ -120,7 +122,8 @@ public class MapperTest {
 	}
 
 	@Test
-	public void translateAnnotationClassAClassB() throws MapperException {
+	public void translateAnnotationClassAClassB()
+			throws MapperException, InvocationTargetException, IllegalAccessException {
 		System.out.println( "Test annotation translate (classA -> classB)." );
 		TestMapClassA sourceA = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		TestMapClassB destinationB = new TestMapClassB(
@@ -157,7 +160,8 @@ public class MapperTest {
 	}
 
 	@Test
-	public void translateAnnotationForMiniClass() throws MapperException {
+	public void translateAnnotationForMiniClass()
+			throws MapperException, InvocationTargetException, IllegalAccessException {
 		System.out.println( "Test annotation for mini class (classA -> classC)." );
 		TestMapClassA source = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		TestMapClassC destination = new TestMapClassC( TestMapClassC.TEST_DESTINATION_STRING );
@@ -169,7 +173,8 @@ public class MapperTest {
 	}
 
 	@Test
-	public void forceTranslateAnnotationOutMiniClass() throws MapperException {
+	public void forceTranslateAnnotationOutMiniClass()
+			throws MapperException, InvocationTargetException, IllegalAccessException {
 		System.out.println( "[FORCE] Test annotation out mini class (classC -> classA)." );
 		TestMapClassC source = new TestMapClassC( TestMapClassC.TEST_SOURCE_STRING );
 		TestMapClassA destination = new TestMapClassA(
