@@ -7,103 +7,12 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.marcom.Annotation.TranslateDestination;
-import com.marcom.Annotation.TranslateSource;
 import com.marcom.Exception.MapperException;
+import com.marcom.TestClasses.TestMapClassA;
+import com.marcom.TestClasses.TestMapClassB;
+import com.marcom.TestClasses.TestMapClassC;
 
 public class MapperTest {
-
-	class TestMapClassA {
-		public static final int TEST_SOURCE_A = 1;
-		public static final int TEST_DESTINATION_A = 2;
-		public static final String TEST_SOURCE_STRING = "TestMapClass_A1";
-		public static final String TEST_DESTINATION_STRING = "TestMapClass_A2";
-
-		private int a;
-		private String string;
-
-		public TestMapClassA(int a, String string) {
-			this.a = a;
-			this.string = string;
-		}
-
-		@TranslateSource({ "TestMapClass_A", "TestMapClass_B" })
-		public int getA() {
-			return a;
-		}
-
-		@TranslateDestination("TestMapClass_A")
-		public void setA(int a) {
-			this.a = a;
-		}
-
-		@TranslateSource({ "TestMapClass_String" })
-		public String getString() {
-			return string;
-		}
-
-		@TranslateDestination("TestMapClass_String")
-		public void setString(String string) {
-			this.string = string;
-		}
-	}
-
-	class TestMapClassB {
-		public static final int TEST_SOURCE_A = 3;
-		public static final int TEST_DESTINATION_A = 4;
-		public static final String TEST_SOURCE_STRING = "TestMapClass_B3";
-		public static final String TEST_DESTINATION_STRING = "TestMapClass_B4";
-
-		private int a;
-		private String string;
-
-		public TestMapClassB(int a, String string) {
-			this.a = a;
-			this.string = string;
-		}
-
-		@TranslateSource({ "TestMapClass_B" })
-		public int getA() {
-			return a;
-		}
-
-		@TranslateDestination("TestMapClass_B")
-		public void setA(int a) {
-			this.a = a;
-		}
-
-		@TranslateSource({ "TestMapClass_String" })
-		public String getString() {
-			return string;
-		}
-
-		@TranslateDestination("TestMapClass_String")
-		public void setString(String string) {
-			this.string = string;
-		}
-	}
-
-	class TestMapClassC {
-		public static final String TEST_SOURCE_STRING = "TestMapClass_C5";
-		public static final String TEST_DESTINATION_STRING = "TestMapClass_C6";
-
-		private String string;
-
-		public TestMapClassC(String string) {
-			this.string = string;
-		}
-
-		@TranslateSource({ "TestMapClass_String" })
-		public String getString() {
-			return string;
-		}
-
-		@TranslateDestination("TestMapClass_String")
-		public void setString(String string) {
-			this.string = string;
-		}
-	}
-
 
 	@Test
 	public void translateAnnotationClassAClassA()
@@ -117,7 +26,7 @@ public class MapperTest {
 		System.out.println( "[Mapper] Test annotation translate (classA -> classA)." );
 		Mapper<TestMapClassA, TestMapClassA> mapperAA = new Mapper<>();
 		mapperAA.translate( sourceA, destinationA, false );
-		Assert.assertEquals( "Translate pojo is failed.", sourceA.a, destinationA.a );
+		Assert.assertEquals( "Translate pojo is failed.", sourceA.getA(), destinationA.getA() );
 		Assert.assertEquals( "Translate object is failed.", sourceA.getString(), destinationA.getString() );
 	}
 
@@ -133,7 +42,7 @@ public class MapperTest {
 
 		Mapper<TestMapClassA, TestMapClassB> mapperAB = new Mapper<>();
 		mapperAB.translate( sourceA, destinationB, false );
-		Assert.assertEquals( "Translate pojo is failed.", sourceA.a, destinationB.a );
+		Assert.assertEquals( "Translate pojo is failed.", sourceA.getA(), destinationB.getA() );
 		Assert.assertEquals( "Translate object is failed.", sourceA.getString(), destinationB.getString() );
 
 		System.out.println( "[Mapper] Test annotation translate (classB -> classA)." );
