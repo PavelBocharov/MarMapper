@@ -1,7 +1,9 @@
 package com.marcom;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.marcom.Annotation.TranslateDestination;
@@ -112,7 +114,7 @@ public class MapperTest {
 
 		System.out.println( "Test annotation translate (classA -> classA)." );
 		Mapper<TestMapClassA, TestMapClassA> mapperAA = new Mapper<>();
-		mapperAA.translate( sourceA, destinationA );
+		mapperAA.translate( sourceA, destinationA, false );
 		Assert.assertEquals( "Translate pojo is failed.", sourceA.a, destinationA.a );
 		Assert.assertEquals( "Translate object is failed.", sourceA.getString(), destinationA.getString() );
 	}
@@ -127,7 +129,7 @@ public class MapperTest {
 		);
 
 		Mapper<TestMapClassA, TestMapClassB> mapperAB = new Mapper<>();
-		mapperAB.translate( sourceA, destinationB );
+		mapperAB.translate( sourceA, destinationB, false );
 		Assert.assertEquals( "Translate pojo is failed.", sourceA.a, destinationB.a );
 		Assert.assertEquals( "Translate object is failed.", sourceA.getString(), destinationB.getString() );
 
@@ -140,10 +142,17 @@ public class MapperTest {
 
 		Mapper<TestMapClassB, TestMapClassA> mapperBA = new Mapper<>();
 		try {
-			mapperBA.translate( sourceB, destinationA );
+			mapperBA.translate( sourceB, destinationA, false );
 		}
 		catch (MapperException me) {
-			Assert.assertEquals( "Mapped by value = TestMapClass_A, don't pass in source.", me.getMessage() );
+			Set<String> set = new HashSet<String>();
+			set.add( "TestMapClass_A" );
+			set.add( "TestMapClass_B" );
+			Assert.assertEquals(
+					"Mapped by values = [TestMapClass_A, TestMapClass_B], don't pass in source.",
+					true,
+					AssertTest.assertSet( me.getValues(), set )
+			);
 		}
 	}
 
@@ -154,15 +163,13 @@ public class MapperTest {
 		TestMapClassC destination = new TestMapClassC( TestMapClassC.TEST_DESTINATION_STRING );
 
 		Mapper<TestMapClassA, TestMapClassC> mapper = new Mapper<>();
-		mapper.translate( source, destination );
+		mapper.translate( source, destination, false );
 
 		Assert.assertEquals( "Translate object is failed.", source.getString(), destination.getString() );
 	}
 
-	//TODO Force translate - skip non detected annotation
 	@Test
-	@Ignore
-	public void translateAnnotationOutMiniClass() throws MapperException {
+	public void forceTranslateAnnotationOutMiniClass() throws MapperException {
 		System.out.println( "Test annotation out mini class (classC -> classA)." );
 		TestMapClassC source = new TestMapClassC( TestMapClassC.TEST_SOURCE_STRING );
 		TestMapClassA destination = new TestMapClassA(
@@ -171,7 +178,7 @@ public class MapperTest {
 		);
 
 		Mapper<TestMapClassC, TestMapClassA> mapper = new Mapper<>();
-		mapper.translate( source, destination );
+		mapper.translate( source, destination, true );
 
 		Assert.assertEquals( "Translate object is failed.", source.getString(), destination.getString() );
 	}

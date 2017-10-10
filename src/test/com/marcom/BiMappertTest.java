@@ -1,5 +1,8 @@
 package com.marcom;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -110,7 +113,7 @@ public class BiMappertTest {
 
 		System.out.println( "Test annotation bitranslate (classA -> classA)." );
 		BiMapper<TestMapClassA, TestMapClassA> mapperAA = new BiMapper<>();
-		mapperAA.translate( sourceA, destinationA );
+		mapperAA.translate( sourceA, destinationA, false );
 		Assert.assertEquals( "Translate pojo is failed.", TestMapClassA.TEST_SOURCE_A, destinationA.getA() );
 		Assert.assertEquals(
 				"Translate object is failed.",
@@ -121,7 +124,7 @@ public class BiMappertTest {
 		System.out.println( "Test annotation bitranslate (classA <- classA)." );
 		sourceA = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		destinationA = new TestMapClassA( TestMapClassA.TEST_DESTINATION_A, TestMapClassA.TEST_DESTINATION_STRING );
-		mapperAA.translateBack( sourceA, destinationA );
+		mapperAA.translateBack( sourceA, destinationA, false );
 		Assert.assertEquals( "Translate pojo is failed.", sourceA.getA(), TestMapClassA.TEST_DESTINATION_A );
 		Assert.assertEquals(
 				"Translate object is failed.",
@@ -140,7 +143,7 @@ public class BiMappertTest {
 		);
 
 		BiMapper<TestMapClassA, TestMapClassB> mapper = new BiMapper<>();
-		mapper.translate( source, destination );
+		mapper.translate( source, destination, false );
 		Assert.assertEquals( "Translate pojo is failed.", TestMapClassA.TEST_SOURCE_A, destination.getA() );
 		Assert.assertEquals( "Translate object is failed.", TestMapClassA.TEST_SOURCE_STRING, destination.getString() );
 
@@ -148,10 +151,17 @@ public class BiMappertTest {
 		source = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		destination = new TestMapClassB( TestMapClassB.TEST_DESTINATION_A, TestMapClassB.TEST_DESTINATION_STRING );
 		try {
-			mapper.translateBack( source, destination );
+			mapper.translateBack( source, destination, false );
 		}
 		catch (MapperException me) {
-			Assert.assertEquals( "Mapped by value = TestMapClass_A, don't pass in source.", me.getMessage() );
+			Set<String> set = new HashSet<String>();
+			set.add( "TestMapClass_A" );
+			set.add( "TestMapClass_B" );
+			Assert.assertEquals(
+					"Mapped by values = [TestMapClass_A, TestMapClass_B], don't pass in source.",
+					true,
+					AssertTest.assertSet( me.getValues(), set )
+			);
 		}
 	}
 
@@ -162,7 +172,7 @@ public class BiMappertTest {
 		TestMapClassC destination = new TestMapClassC( TestMapClassC.TEST_DESTINATION_STRING );
 
 		BiMapper<TestMapClassA, TestMapClassC> mapper = new BiMapper<>();
-		mapper.translate( source, destination );
+		mapper.translate( source, destination, false );
 
 		Assert.assertEquals( "Translate object is failed.", TestMapClassA.TEST_SOURCE_STRING, destination.getString() );
 
@@ -170,10 +180,10 @@ public class BiMappertTest {
 		source = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		destination = new TestMapClassC( TestMapClassC.TEST_DESTINATION_STRING );
 		try {
-			mapper.translateBack( source, destination );
+			mapper.translateBack( source, destination, false );
 		}
 		catch (MapperException me) {
-			Assert.assertEquals( "Mapped by value = TestMapClass_A, don't pass in source.", me.getMessage() );
+			Assert.assertEquals( "Mapped by value = [TestMapClass_A], don't pass in source.", me.getMessage() );
 		}
 	}
 }
