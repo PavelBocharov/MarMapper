@@ -170,7 +170,7 @@ public class MapperTest {
 
 	@Test
 	public void forceTranslateAnnotationOutMiniClass() throws MapperException {
-		System.out.println( "Test annotation out mini class (classC -> classA)." );
+		System.out.println( "[FORCE] Test annotation out mini class (classC -> classA)." );
 		TestMapClassC source = new TestMapClassC( TestMapClassC.TEST_SOURCE_STRING );
 		TestMapClassA destination = new TestMapClassA(
 				TestMapClassA.TEST_DESTINATION_A,
@@ -180,7 +180,7 @@ public class MapperTest {
 		Mapper<TestMapClassC, TestMapClassA> mapper = new Mapper<>();
 		mapper.translate( source, destination, true );
 
-		Assert.assertEquals( "Translate object is failed.", source.getString(), destination.getString() );
+		Assert.assertEquals( "Force translate object is failed.", source.getString(), destination.getString() );
 	}
 
 	//TODO [JSON] JSON -> Object: annotation.value = json.key

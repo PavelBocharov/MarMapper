@@ -1,9 +1,14 @@
 package com.marcom.Annotation;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Аннотация обозначает источник данных для транслятора.
+ * [ENG] The abstract indicates the data source for the translator.
+ * [RU]  Аннотация обозначает источник данных для транслятора.
  * Created by Marolok on 02.12.16.
  */
 @Retention(RetentionPolicy.RUNTIME)

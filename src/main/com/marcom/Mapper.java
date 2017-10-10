@@ -16,17 +16,19 @@ import com.marcom.Annotation.TranslateSource;
 import com.marcom.Exception.MapperException;
 
 /**
- * Самописный аналог ModelMapper`a. Использует аннотации {@link TranslateSource}
- * и {@link TranslateDestination} для размечения геттеров/сеттеров.
+ * [ENG] The analogue analog of ModelMapper. Uses annotations {@link TranslateSource} and {@link TranslateDestination} to tag getters / setters.
+ * [RU]  Самописный аналог ModelMapper`a. Использует аннотации {@link TranslateSource} и {@link TranslateDestination} для размечения геттеров/сеттеров.
  * Created by Marolok on 02.12.16.
  */
 public class Mapper<S, D> {
 
 	/**
-	 * Вызывает сеттеры у destination по аннотации TranslateDestination, записывая данные из геттеров source по аннотации TranslateSource.
+	 * [ENG] Call setters at destination by the TranslateDestination annotation, writing data from source getters according to the TranslateSource annotation.
+	 * [RU]  Вызывает сеттеры у destination по аннотации TranslateDestination, записывая данные из геттеров source по аннотации TranslateSource.
 	 *
-	 * @param source
-	 * @param destination
+	 * @param source Source, откуда копирует значения при транслировании.
+	 * @param destination Destination, куда копирует значения при транслировании.
+	 * @param force пропускать не найденные аннотации, skip annotations not found.
 	 *
 	 * @throws NoSuchMethodException
 	 * @throws InvocationTargetException
