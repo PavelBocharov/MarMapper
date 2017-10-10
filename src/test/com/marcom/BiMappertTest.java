@@ -113,7 +113,7 @@ public class BiMappertTest {
 				TestMapClassA.TEST_DESTINATION_STRING
 		);
 
-		System.out.println( "Test annotation bitranslate (classA -> classA)." );
+		System.out.println( "[BiMapper] Test annotation bitranslate (classA -> classA)." );
 		BiMapper<TestMapClassA, TestMapClassA> mapperAA = new BiMapper<>();
 		mapperAA.translate( sourceA, destinationA, false );
 		Assert.assertEquals( "Translate pojo is failed.", TestMapClassA.TEST_SOURCE_A, destinationA.getA() );
@@ -123,7 +123,7 @@ public class BiMappertTest {
 				destinationA.getString()
 		);
 
-		System.out.println( "Test annotation bitranslate (classA <- classA)." );
+		System.out.println( "[BiMapper] Test annotation bitranslate (classA <- classA)." );
 		sourceA = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		destinationA = new TestMapClassA( TestMapClassA.TEST_DESTINATION_A, TestMapClassA.TEST_DESTINATION_STRING );
 		mapperAA.translateBack( sourceA, destinationA, false );
@@ -138,7 +138,7 @@ public class BiMappertTest {
 	@Test
 	public void bitranslateAnnotationClassAClassB()
 			throws MapperException, InvocationTargetException, IllegalAccessException {
-		System.out.println( "Test annotation bitranslate (classA -> classB)." );
+		System.out.println( "[BiMapper] Test annotation bitranslate (classA -> classB)." );
 		TestMapClassA source = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		TestMapClassB destination = new TestMapClassB(
 				TestMapClassB.TEST_DESTINATION_A,
@@ -147,10 +147,10 @@ public class BiMappertTest {
 
 		BiMapper<TestMapClassA, TestMapClassB> mapper = new BiMapper<>();
 		mapper.translate( source, destination, false );
-		Assert.assertEquals( "Translate pojo is failed.", TestMapClassA.TEST_SOURCE_A, destination.getA() );
-		Assert.assertEquals( "Translate object is failed.", TestMapClassA.TEST_SOURCE_STRING, destination.getString() );
+		Assert.assertEquals( "[BiMapper] Translate pojo is failed.", TestMapClassA.TEST_SOURCE_A, destination.getA() );
+		Assert.assertEquals( "[BiMapper] Translate object is failed.", TestMapClassA.TEST_SOURCE_STRING, destination.getString() );
 
-		System.out.println( "Test annotation bitranslate (classA <- classB)." );
+		System.out.println( "[BiMapper] Test annotation bitranslate (classA <- classB)." );
 		source = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		destination = new TestMapClassB( TestMapClassB.TEST_DESTINATION_A, TestMapClassB.TEST_DESTINATION_STRING );
 		try {
@@ -171,7 +171,7 @@ public class BiMappertTest {
 	@Test
 	public void bitranslateAnnotationForMiniClass()
 			throws MapperException, InvocationTargetException, IllegalAccessException {
-		System.out.println( "Test annotation for mini class (classA -> classC)." );
+		System.out.println( "[BiMapper] Test annotation for mini class (classA -> classC)." );
 		TestMapClassA source = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		TestMapClassC destination = new TestMapClassC( TestMapClassC.TEST_DESTINATION_STRING );
 
@@ -180,7 +180,7 @@ public class BiMappertTest {
 
 		Assert.assertEquals( "Translate object is failed.", TestMapClassA.TEST_SOURCE_STRING, destination.getString() );
 
-		System.out.println( "Test annotation for mini class (classA <- classC)." );
+		System.out.println( "[BiMapper] Test annotation for mini class (classA <- classC)." );
 		source = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		destination = new TestMapClassC( TestMapClassC.TEST_DESTINATION_STRING );
 		try {

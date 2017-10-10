@@ -10,9 +10,16 @@
 
     <properties>
         <junit.version>4.12</junit.version>
+        <json.version>20170516</json.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>${json.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

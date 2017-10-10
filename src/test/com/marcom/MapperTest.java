@@ -114,7 +114,7 @@ public class MapperTest {
 				TestMapClassA.TEST_DESTINATION_STRING
 		);
 
-		System.out.println( "Test annotation translate (classA -> classA)." );
+		System.out.println( "[Mapper] Test annotation translate (classA -> classA)." );
 		Mapper<TestMapClassA, TestMapClassA> mapperAA = new Mapper<>();
 		mapperAA.translate( sourceA, destinationA, false );
 		Assert.assertEquals( "Translate pojo is failed.", sourceA.a, destinationA.a );
@@ -124,7 +124,7 @@ public class MapperTest {
 	@Test
 	public void translateAnnotationClassAClassB()
 			throws MapperException, InvocationTargetException, IllegalAccessException {
-		System.out.println( "Test annotation translate (classA -> classB)." );
+		System.out.println( "[Mapper] Test annotation translate (classA -> classB)." );
 		TestMapClassA sourceA = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		TestMapClassB destinationB = new TestMapClassB(
 				TestMapClassB.TEST_DESTINATION_A,
@@ -136,7 +136,7 @@ public class MapperTest {
 		Assert.assertEquals( "Translate pojo is failed.", sourceA.a, destinationB.a );
 		Assert.assertEquals( "Translate object is failed.", sourceA.getString(), destinationB.getString() );
 
-		System.out.println( "Test annotation translate (classB -> classA)." );
+		System.out.println( "[Mapper] Test annotation translate (classB -> classA)." );
 		TestMapClassB sourceB = new TestMapClassB( TestMapClassB.TEST_SOURCE_A, TestMapClassB.TEST_SOURCE_STRING );
 		TestMapClassA destinationA = new TestMapClassA(
 				TestMapClassA.TEST_DESTINATION_A,
@@ -162,7 +162,7 @@ public class MapperTest {
 	@Test
 	public void translateAnnotationForMiniClass()
 			throws MapperException, InvocationTargetException, IllegalAccessException {
-		System.out.println( "Test annotation for mini class (classA -> classC)." );
+		System.out.println( "[Mapper] Test annotation for mini class (classA -> classC)." );
 		TestMapClassA source = new TestMapClassA( TestMapClassA.TEST_SOURCE_A, TestMapClassA.TEST_SOURCE_STRING );
 		TestMapClassC destination = new TestMapClassC( TestMapClassC.TEST_DESTINATION_STRING );
 
@@ -175,7 +175,7 @@ public class MapperTest {
 	@Test
 	public void forceTranslateAnnotationOutMiniClass()
 			throws MapperException, InvocationTargetException, IllegalAccessException {
-		System.out.println( "[FORCE] Test annotation out mini class (classC -> classA)." );
+		System.out.println( "[Mapper] Test annotation out mini class (classC -> classA)." );
 		TestMapClassC source = new TestMapClassC( TestMapClassC.TEST_SOURCE_STRING );
 		TestMapClassA destination = new TestMapClassA(
 				TestMapClassA.TEST_DESTINATION_A,
@@ -187,10 +187,5 @@ public class MapperTest {
 
 		Assert.assertEquals( "Force translate object is failed.", source.getString(), destination.getString() );
 	}
-
-	//TODO [JSON] JSON -> Object: annotation.value = json.key
-	//TODO [JSON] List JSON -> List objects.
-	//TODO [JSON] JSON.value = array.
-	//TODO [JSON] Class annotation, if key JSON.value = user's object
 
 }
