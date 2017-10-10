@@ -50,7 +50,6 @@ public class Mapper<S, D> {
 				}
 			}
 			else {
-				// TODO Return all non detected annotation.
 				if ( !force ) {
 					Set<String> values = notIntersection( sourceMap.keySet(), destinationMap.keySet() );
 					throw new MapperException(

@@ -1,5 +1,8 @@
 package com.marcom;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -151,8 +154,14 @@ public class BiMappertTest {
 			mapper.translateBack( source, destination, false );
 		}
 		catch (MapperException me) {
-			Assert.assertEquals( me.getValues().toArray(), new String[] { "TestMapClass_A", "TestMapClass_B" } );
-//			Assert.assertEquals( "Mapped by value = TestMapClass_A, don't pass in source.", me.getMessage() );
+			Set<String> set = new HashSet<String>();
+			set.add( "TestMapClass_A" );
+			set.add( "TestMapClass_B" );
+			Assert.assertEquals(
+					"Mapped by values = [TestMapClass_A, TestMapClass_B], don't pass in source.",
+					true,
+					AssertTest.assertSet( me.getValues(), set )
+			);
 		}
 	}
 
