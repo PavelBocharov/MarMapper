@@ -32,7 +32,7 @@ public class JsonMapperTest {
 		System.out.println( "[JSON] Test fromJson()." );
 		JSONObject testJson = new JSONObject(
 				"{\"TestMapClass_String\":\"TestMapClass_A1\",\"TestMapClass_A\":1}" );
-
+		System.out.println("[JSON] Test fromJson(): from - " + testJson.toString());
 		JsonMapper<TestMapClassA> mapper = new JsonMapper<>();
 		TestMapClassA testMapClassA = new TestMapClassA(
 				TestMapClassA.TEST_DESTINATION_A,
@@ -40,7 +40,7 @@ public class JsonMapperTest {
 		);
 
 		mapper.translateFromJson( testJson, testMapClassA, false );
-
+		System.out.println("[JSON] Test fromJson(): to - " + testMapClassA.toString());
 		Assert.assertEquals( TestMapClassA.TEST_SOURCE_A, testMapClassA.getA() );
 		Assert.assertEquals( TestMapClassA.TEST_SOURCE_STRING, testMapClassA.getString() );
 	}
@@ -58,7 +58,7 @@ public class JsonMapperTest {
 		}
 		catch (MapperException me) {
 			// It's good
-			System.out.println( "Good exception. - " + me.getMessage() );
+			System.out.println( "[JSON] Test fromJsonWithException(): Good exception. - " + me.getMessage() );
 		}
 	}
 

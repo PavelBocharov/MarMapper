@@ -13,7 +13,7 @@ public class MapperException extends Exception {
 	/**
 	 * [ENG/RU]  Constructor
 	 * @param message сообщение.
-	 * @param values не найденные аннотации, list of annotations that were not found.
+	 * @param values [RU] не найденные аннотации, [EN] list of annotations that were not found.
 	 */
 	public MapperException(String message, Set<String> values) {
 		super( message );

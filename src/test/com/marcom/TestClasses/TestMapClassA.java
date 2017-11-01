@@ -36,4 +36,12 @@ public class TestMapClassA {
 	public void setString(String string) {
 		this.string = string;
 	}
+
+	@Override
+	public String toString() {
+		return "TestMapClassA{" +
+				"a=" + a +
+				", string='" + string + '\'' +
+				'}';
+	}
 }

@@ -19,6 +19,16 @@ public class MapperMethods<S, D> {
 
 	}
 
+	protected Set intersectionKeys(Set<String> sourceSet, Set<String> destinationSet){
+		Set<String> result = new HashSet<>(sourceSet.size() < destinationSet.size() ? sourceSet.size() : destinationSet.size());
+		for ( String s : sourceSet ) {
+			if ( destinationSet.contains( s ) ) {
+				result.add( s );
+			}
+		}
+		return result;
+	}
+
 	protected Set notIntersection(Set<String> sourceSet, Set<String> destinationSet) {
 		Set<String> result = new HashSet<>();
 		for ( String s : sourceSet ) {

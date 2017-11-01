@@ -2,7 +2,6 @@ package com.marcom;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,13 +14,9 @@ public class JsonMapper<C> extends MapperMethods {
 			throws InvocationTargetException, IllegalAccessException, MapperException {
 		Map<String, Method> methodMap = this.getDestinationMap( destination );
 		Set<String> annotationKey = methodMap.keySet();
-		Set<String> intersectionKey = new HashSet<>();
+		Set<String> intersectionKey;
 		if ( force ) {
-			for ( String s : source.keySet() ) {
-				if ( annotationKey.contains( s ) ) {
-					intersectionKey.add( s );
-				}
-			}
+			intersectionKey = intersectionKeys(source.keySet(), annotationKey);
 		}
 		else {
 			intersectionKey = source.keySet();
