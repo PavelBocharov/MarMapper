@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import com.marcom.Exception.MapperException;
 
 /**
- * [ENG] Direct (S to D) and inverse (D to S) mapper.
+ * [ENG] Direct(S to D) and inverse(D to S) mapper.
  * [RU]  Прямой(S to D) и обратный(D to S) транслятор.
  * @param <S> Source, откуда копирует значения при транслировании.
  * @param <D> Destination, куда копирует значения при транслировании.
@@ -16,7 +16,7 @@ public class BiMapper<S, D> {
 	private Mapper<D, S> remapper = new Mapper<>();
 
 	/**
-	 * [ENG] Direct (S to D) mapper.
+	 * [ENG] Direct(S to D) mapper.
 	 * [RU]  Прямой(S to D) транслятор.
 	 * @param source Source, откуда копирует значения при транслировании.
 	 * @param destination Destination, куда копирует значения при транслировании.
@@ -31,7 +31,7 @@ public class BiMapper<S, D> {
 	}
 
 	/**
-	 * [ENG] Inverse (D to S) mapper.
+	 * [ENG] Inverse(D to S) mapper.
 	 * [RU]  Обратный(D to S) транслятор.
 	 * @param source Source, откуда копирует значения при транслировании.
 	 * @param destination Destination, куда копирует значения при транслировании.
