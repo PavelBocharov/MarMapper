@@ -19,6 +19,12 @@ public class MapperMethods<S, D> {
 
 	}
 
+	/**
+	 * Пересечение множеств.
+	 * @param sourceSet
+	 * @param destinationSet
+	 * @return
+	 */
 	protected Set intersectionKeys(Set<String> sourceSet, Set<String> destinationSet){
 		Set<String> result = new HashSet<>(sourceSet.size() < destinationSet.size() ? sourceSet.size() : destinationSet.size());
 		for ( String s : sourceSet ) {
@@ -29,6 +35,12 @@ public class MapperMethods<S, D> {
 		return result;
 	}
 
+	/**
+	 * Не пересекающиеся элементы множества.
+	 * @param sourceSet
+	 * @param destinationSet
+	 * @return
+	 */
 	protected Set notIntersection(Set<String> sourceSet, Set<String> destinationSet) {
 		Set<String> result = new HashSet<>();
 		for ( String s : sourceSet ) {
@@ -44,10 +56,20 @@ public class MapperMethods<S, D> {
 		return result;
 	}
 
+	/**
+	 * Получение Source методов.
+	 * @param source
+	 * @return
+	 */
 	protected Map<String, Method> getSourceMap(S source) {
 		return getMapMethodByAnnotation( source.getClass().getMethods(), TranslateSource.class.getSimpleName() );
 	}
 
+	/**
+	 * Получение Destination методов.
+	 * @param destination
+	 * @return
+	 */
 	protected Map<String, Method> getDestinationMap(D destination) {
 		return getMapMethodByAnnotation(
 				destination.getClass().getMethods(),
@@ -55,6 +77,12 @@ public class MapperMethods<S, D> {
 		);
 	}
 
+	/**
+	 * Получение значений value в анотации.
+	 * @param methods
+	 * @param annotationName
+	 * @return
+	 */
 	protected Map<String, Method> getMapMethodByAnnotation(Method[] methods, String annotationName) {
 		Map<String, Method> map = new HashMap<>();
 		Pattern pattern = Pattern.compile( "^.+value=\\[(.+)\\][)]$" );
